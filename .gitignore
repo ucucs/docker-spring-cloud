@@ -137,6 +137,3 @@ logs/
 .mvn
 mvnw
 mvnw.cmd
-
-/wxwork-codegen/src/main/java/
-/wxwork-codegen/src/main/resources/mapper/
