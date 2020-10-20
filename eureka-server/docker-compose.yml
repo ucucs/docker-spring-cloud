@@ -1,0 +1,50 @@
+version: "3.8" # 指定 docker-compose.yml 文件的写法格式
+services: # 用来表示compose需要启动的服务 本文件从.env文件读取变量
+
+  # 服务间通信，是通过服务名，不是通过容器名
+
+  eurekaNodeA: # 服务名
+    container_name: eureka_node_a # 容器名
+    image: eureka-server:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_HOST=eurekaNodeA
+      - EUREKA_ZONE_URL=http://eurekaNodeB:8082/eureka/,http://eurekaNodeC:8083/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=8081
+    networks:
+      - eureka-net
+    ports:
+      - "8081:8081"
+
+  eurekaNodeB:
+    container_name: eureka_node_b
+    image: eureka-server:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_HOST=eurekaNodeB
+      - EUREKA_ZONE_URL=http://eurekaNodeA:8081/eureka/,http://eurekaNodeC:8083/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=8082
+    networks:
+      - eureka-net
+    ports:
+      - "8082:8082"
+
+  eurekaNodeC:
+    container_name: eureka_node_c
+    image: eureka-server:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_HOST=eurekaNodeC
+      - EUREKA_ZONE_URL=http://eurekaNodeA:8081/eureka/,http://eurekaNodeB:8082/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=8083
+    networks:
+      - eureka-net
+    ports:
+      - "8083:8083"
+
+networks:
+  eureka-net:
+    driver: bridge

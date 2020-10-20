@@ -1,0 +1,39 @@
+spring:
+  profiles:
+    include: # Default active profile
+      - eureka
+  active: local
+  servlet:
+    multipart: # Multipart configuration
+      max-file-size: 20MB
+      max-request-size: 30MB
+  jackson: # Jackson datatime format
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  application:
+    name: eureka-client # 指定服务名称
+
+server:
+  port: 9001 # HTTP port
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding: #Solve the messy code problem
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true
+  shutdown: graceful
+
+management: # actuator security
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    shutdown:
+      enabled: false
+  endpoints:
+    enabled-by-default: false

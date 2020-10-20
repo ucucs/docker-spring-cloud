@@ -1,0 +1,38 @@
+eureka:
+  instance:
+    hostname: localhost # 指定主机地址
+    lease-renewal-interval-in-seconds: 5 # 心跳间隔，5秒
+    lease-expiration-duration-in-seconds: 10 # 没有心跳的淘汰时间，10秒
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress:${eureka.instance.hostname:}}:${spring.application.instance_id:${server.port}} # 实例id
+  client:
+    fetch-registry: false # 指定是否要从注册中心获取服务（注册中心不需要开启）
+    register-with-eureka: false # 指定是否要注册到注册中心（注册中心不需要开启）
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ # 注册中心地址
+  server:
+    enable-self-preservation: true # 关闭保护模式,测试环境可以false，生产为true
+    eviction-interval-timer-in-ms: 5000 # 主动失效检测间隔,配置成5秒
+    use-read-only-response-cache: false # 关闭输出注册缓存
+    renewal-threshold-update-interval-ms: 120000 # 心跳阈值计算周期
+    renewal-percent-threshold: 0.85 # 指定每分钟需要收到的续约次数的阈值,防止网络抖动误判
+
+#
+# 客户端配置优化
+# 心跳间隔，5秒
+# eureka.instance.leaseRenewalIntervalInSeconds=5
+# 没有心跳的淘汰时间，10秒
+# eureka.instance.leaseExpirationDurationInSeconds=10
+# 定时刷新本地缓存时间
+# eureka.client.registryFetchIntervalSeconds=5
+# ribbon缓存时间
+# ribbon.ServerListRefreshInterval=2000
+
+#
+#  正常上线下线客户端最大感知时间
+#  eureka.client.registryFetchIntervalSeconds+ribbon.ServerListRefreshInterval = 7秒
+#
+#  异常下线客户端最大感知时间
+#  2*eureka.instance.leaseExpirationDurationInSeconds+
+#  eureka.server.evictionIntervalTimerInMs+
+#  eureka.client.registryFetchIntervalSeconds+
+#  ribbon.ServerListRefreshInterval = 32
