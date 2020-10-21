@@ -10,13 +10,14 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     environment:
       - TZ=Asia/Shanghai
       - EUREKA_HOST=eurekaNodeA
-      - EUREKA_ZONE_URL=http://eurekaNodeB:8082/eureka/,http://eurekaNodeC:8083/eureka/
+      - EUREKA_ZONE_URL=http://eurekaNodeB:8080/eureka/,http://eurekaNodeC:8080/eureka/
       - spring.profiles.active=cluster
-      - SERVER_PORT=8081
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
     networks:
       - eureka-net
     ports:
-      - "8081:8081"
+      - "8081:8080"
 
   eurekaNodeB:
     container_name: eureka_node_b
@@ -24,13 +25,14 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     environment:
       - TZ=Asia/Shanghai
       - EUREKA_HOST=eurekaNodeB
-      - EUREKA_ZONE_URL=http://eurekaNodeA:8081/eureka/,http://eurekaNodeC:8083/eureka/
+      - EUREKA_ZONE_URL=http://eurekaNodeA:8080/eureka/,http://eurekaNodeC:8080/eureka/
       - spring.profiles.active=cluster
-      - SERVER_PORT=8082
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
     networks:
       - eureka-net
     ports:
-      - "8082:8082"
+      - "8082:8080"
 
   eurekaNodeC:
     container_name: eureka_node_c
@@ -38,13 +40,14 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     environment:
       - TZ=Asia/Shanghai
       - EUREKA_HOST=eurekaNodeC
-      - EUREKA_ZONE_URL=http://eurekaNodeA:8081/eureka/,http://eurekaNodeB:8082/eureka/
+      - EUREKA_ZONE_URL=http://eurekaNodeA:8080/eureka/,http://eurekaNodeB:8080/eureka/
       - spring.profiles.active=cluster
-      - SERVER_PORT=8083
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
     networks:
       - eureka-net
     ports:
-      - "8083:8083"
+      - "8083:8080"
 
 networks:
   eureka-net:

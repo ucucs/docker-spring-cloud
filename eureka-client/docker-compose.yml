@@ -9,7 +9,7 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     image: eureka-client:latest
     environment:
       - TZ=Asia/Shanghai
-      - EUREKA_SERVER_URL=http://eurekaNodeA:8081/eureka/
+      - EUREKA_SERVER_URL=http://eurekaNodeA:8080/eureka/
       - spring.profiles.active=cluster
       - SERVER_PORT=9091
     networks:
@@ -22,7 +22,7 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     image: eureka-client:latest
     environment:
       - TZ=Asia/Shanghai
-      - EUREKA_SERVER_URL=http://eurekaNodeB:8082/eureka/
+      - EUREKA_SERVER_URL=http://eurekaNodeB:8080/eureka/
       - spring.profiles.active=cluster
       - SERVER_PORT=9092
     networks:
@@ -35,7 +35,7 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
     image: eureka-client:latest
     environment:
       - TZ=Asia/Shanghai
-      - EUREKA_SERVER_URL=http://eurekaNodeC:8083/eureka/
+      - EUREKA_SERVER_URL=http://eurekaNodeC:8080/eureka/
       - spring.profiles.active=cluster
       - SERVER_PORT=9093
     networks:
