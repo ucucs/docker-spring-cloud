@@ -3,7 +3,7 @@ eureka:
     fetch-registry: true # 指定是否要从注册中心获取服务
     register-with-eureka: true # 指定是否要注册到注册中心
     service-url:
-      defaultZone: http://localhost:8080/eureka/ # 配置注册中心地址
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8080/eureka/} # 配置注册中心地址
     registry-fetch-interval-seconds: 5 # 定时刷新本地缓存时间
     healthcheck:
       enabled: true # 开启健康检查（依赖spring-boot-starter-actuator）

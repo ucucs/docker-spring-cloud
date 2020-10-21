@@ -1,0 +1,48 @@
+version: "3.8" # 指定 docker-compose.yml 文件的写法格式
+services: # 用来表示compose需要启动的服务 本文件从.env文件读取变量
+
+  # 服务间通信，是通过服务名，不是通过容器名
+  # 服务间端口，是内部端口，非外部映射端口
+
+  eurekaClientA: # 服务名
+    container_name: eureka_client_a # 容器名
+    image: eureka-client:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_SERVER_URL=http://eurekaNodeA:8081/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=9091
+    networks:
+      - eureka-net
+    ports:
+      - "9091:9091"
+
+  eurekaClientB: # 服务名
+    container_name: eureka_client_b # 容器名
+    image: eureka-client:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_SERVER_URL=http://eurekaNodeB:8082/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=9092
+    networks:
+      - eureka-net
+    ports:
+      - "9092:9092"
+
+  eurekaClientC: # 服务名
+    container_name: eureka_client_c # 容器名
+    image: eureka-client:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_SERVER_URL=http://eurekaNodeC:8083/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=9093
+    networks:
+      - eureka-net
+    ports:
+      - "9093:9093"
+
+networks:
+  eureka-net:
+    external: true # 查找external声明的网络，找到后进行连接

@@ -49,3 +49,4 @@ services: # 用来表示compose需要启动的服务 本文件从.env文件读�
 networks:
   eureka-net:
     driver: bridge
+    name: eureka-net # 指定最终生成的网络名
