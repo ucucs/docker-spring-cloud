@@ -2,6 +2,7 @@ spring:
   profiles:
     include: # Default active profile
       - eureka
+      - secure
   active: local
   servlet:
     multipart: # Multipart configuration
@@ -14,6 +15,10 @@ spring:
     timeout-per-shutdown-phase: 30s
   application:
     name: eureka-server # 指定服务名称
+  security:
+    user:
+      name: ${SECURE_USER:admin}
+      password: ${SECURE_PASSWORD:admin123}
 
 server:
   port: 8080 # HTTP port

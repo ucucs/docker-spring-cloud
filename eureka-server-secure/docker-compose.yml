@@ -1,0 +1,44 @@
+version: "3.8" # 指定 docker-compose.yml 文件的写法格式
+services: # 用来表示compose需要启动的服务 本文件从.env文件读取变量
+
+  # 服务间通信，是通过服务名，不是通过容器名
+  # 服务间端口，是内部端口，非外部映射端口
+
+  eurekaNodeSecureA:
+    container_name: eureka_node_secure_a
+    image: eureka-server-secure:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - SECURE_USER=ucs
+      - SECURE_PASSWORD=ucs123
+      - EUREKA_HOST=eurekaNodeSecureA
+      - EUREKA_ZONE_URL=http://ucs:ucs123@eurekaNodeSecureB:8080/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
+    networks:
+      - eureka-net
+    ports:
+      - "8084:8080"
+
+  eurekaNodeSecureB:
+    container_name: eureka_node_secure_b
+    image: eureka-server-secure:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - SECURE_USER=ucs
+      - SECURE_PASSWORD=ucs123
+      - EUREKA_HOST=eurekaNodeSecureB
+      - EUREKA_ZONE_URL=http://ucs:ucs123@eurekaNodeSecureA:8080/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
+    networks:
+      - eureka-net
+    ports:
+      - "8085:8080"
+
+networks:
+  eureka-net:
+    driver: bridge
+    name: eureka-net # 指定最终生成的网络名

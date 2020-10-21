@@ -1,0 +1,8 @@
+eureka:
+  instance:
+    hostname: ${EUREKA_HOST:localhost} # 指定主机地址
+  client:
+    service-url:
+      defaultZone: ${EUREKA_ZONE_URL:http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/} # 注册中心地址
+    fetch-registry: true # 指定是否要从注册中心获取服务（注册中心不需要开启）
+    register-with-eureka: true # 指定是否要注册到注册中心（注册中心不需要开启）
