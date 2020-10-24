@@ -1,26 +1,28 @@
 package com.ucucs.cloud.controller;
 
-import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserRibbonController {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+  private static final Logger logger = LoggerFactory.getLogger(UserRibbonController.class);
 
-  @Value("${spring.cloud.client.ip-address:}")
-  private String clientIp;
+  @Autowired private RestTemplate restTemplate;
+
+  @Value("${service-url.user-service}")
+  private String userServiceUrl;
 
   @GetMapping("/{id}")
   public String getUser(@PathVariable Long id) {
-    logger.info("根据id获取信息，用户ID为：{}", id);
-    return String.format("%s,%s,%s", id, LocalDateTime.now(), clientIp);
+    return restTemplate.getForObject(userServiceUrl + "/user/{1}", String.class, id);
   }
 }

@@ -1,0 +1,23 @@
+version: "3.8" # 指定 docker-compose.yml 文件的写法格式
+services: # 用来表示compose需要启动的服务 本文件从.env文件读取变量
+
+  # 服务间通信，是通过服务名，不是通过容器名
+  # 服务间端口，是内部端口，非外部映射端口
+
+  ribbonServiceA:
+    container_name: ribbon_service_a
+    image: mock-ribbon-service:latest
+    environment:
+      - TZ=Asia/Shanghai
+      - EUREKA_SERVER_URL=http://ucs:ucs123@eurekaNodeSecureA:8080/eureka/
+      - spring.profiles.active=cluster
+      - SERVER_PORT=9200
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails
+    networks:
+      - eureka-net
+    ports:
+      - "9200:9200"
+
+networks:
+  eureka-net:
+    external: true # 查找external声明的网络，找到后进行连接
