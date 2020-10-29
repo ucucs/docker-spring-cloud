@@ -1,6 +1,7 @@
 package com.ucucs.cloud.controller;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,5 +23,11 @@ public class UserController {
   public String getUser(@PathVariable Long id) {
     logger.info("根据id获取信息，用户ID为：{}", id);
     return String.format("%s,%s,%s", id, LocalDateTime.now(), clientIp);
+  }
+
+  @GetMapping("/cache")
+  public Integer getRandomNum() {
+    Random random = new Random();
+    return random.nextInt(99999);
   }
 }

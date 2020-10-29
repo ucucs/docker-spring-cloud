@@ -25,3 +25,15 @@ Use Docker To Run And Debug Spring Cloud Application
 #  com.netflix.loadbalancer.AvailabilityFilteringRule：先过滤掉故障实例，再选择并发较小的实例；
 #  com.netflix.loadbalancer.ZoneAwareLoadBalancer：采用双重过滤，同时过滤不是同一区域的实例和故障实例，选择并发较小的实例。
 ```
+
+# Hystrix挖坑
+```
+java.lang.IllegalStateException: Request caching is not available. Maybe you need to initialize the HystrixRequestContext?
+需要使用Filter初始化HystrixRequestContext
+
+另外一个坑就是，Hystrix里的Cache，是针对单请求内单。
+当前请求内，同一方法请求结果一样，下一次请求过来重新刷新。
+生命周期较短。
+@CacheResult(cacheKeyMethod = "getCacheKey")
+
+```
