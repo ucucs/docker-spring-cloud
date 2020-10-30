@@ -3,6 +3,7 @@ spring:
     include: # Default active profile
       - eureka
       - ribbon
+      - hystrix
   active: local
   servlet:
     multipart: # Multipart configuration
