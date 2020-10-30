@@ -1,5 +1,6 @@
 package com.ucucs.cloud.controller;
 
+import com.ucucs.cloud.service.OtherService;
 import com.ucucs.cloud.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ public class UserRibbonController {
 
   @Autowired private UserService userService;
 
+  @Autowired private OtherService otherService;
+
   @GetMapping("/{id}")
   public String getUser(@PathVariable Long id) {
     return userService.getUser(id);
@@ -30,6 +33,16 @@ public class UserRibbonController {
   @GetMapping("/exception/{id}")
   public String getUserException(@PathVariable Long id) {
     return userService.getUserException(id);
+  }
+
+  @GetMapping("/other/{id}")
+  public String getUserOther(@PathVariable Long id) {
+    return otherService.getName(id);
+  }
+
+  @GetMapping("/command/{id}")
+  public String getUserCommand(@PathVariable Long id) {
+    return otherService.getUserCommand(id);
   }
 
   @GetMapping("/cache/{id}")

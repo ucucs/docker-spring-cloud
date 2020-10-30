@@ -17,8 +17,6 @@ public class UserService {
 
   @Autowired private RestTemplate restTemplate;
 
-  @Autowired private OtherService otherService;
-
   @Value("${service-url.user-service}")
   private String userServiceUrl;
 
